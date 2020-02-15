@@ -1,0 +1,12 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: mybd29
+  backend:
+    build: .
+    depends_on: [mongo]
+    ports:
+    - "5001:5001"
