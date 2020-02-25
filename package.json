@@ -7,7 +7,7 @@
     "test": "nyc mocha test/*.test.js --timeout 20000 --exit",
     "coverage": "nyc report --reporter=lcov --reporter=text",
     "cov": "npm run test &&  npm run coverage",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
