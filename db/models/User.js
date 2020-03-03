@@ -20,6 +20,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    IsSuperAdmin: {
+        type: Boolean,
+        default: false
+    },
     status: {
         type: Boolean,
         default: true

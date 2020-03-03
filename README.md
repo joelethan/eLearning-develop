@@ -15,9 +15,9 @@ Backend Repository for the ILEARN AFRICAN backend
 | POST   | /api/user/register/                                | registers new users by email                             |
 | PUT    | /api/user/confirmation/:emailToken                 | activates a users account                                |
 | POST   | /api/user/login/                                   | logs in a user by email                                  |
-| GET    | /api/user/current/                                 | get information of logged in user                        |
+| GET    | /api/user/profile/                                 | get information of logged in user                        |
 | POST   | /api/user/activity/                                | get logged in user's activity                            |
-| POST   | /api/user/profile/                                 | update user profile                                      |
+| PUT   | /api/user/profile/                                 | update user profile                                      |
 | POST   | /api/user/password/                                | user change password                                     |
 | POST   | /api/user/search?email=email&otherfields=value     | search through users                                     |
 

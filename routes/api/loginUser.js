@@ -5,14 +5,14 @@ const iplocation = require("iplocation").default;
 const secretOrKey = process.env.secretOrKey || 'key';
 
 const loginUser = (user, req, res) => {
-    if(!req.headers['x-userip']){
-        return res.send('Ip address not set')
+    if(!req.headers['x-forwarded-for']){
+        return res.status(400).json({error: 'Ip address not set'})
     }
     const activity = {};
     const payload = {id: user.id, email: user.email}
 
     jwt.sign(payload, secretOrKey, { expiresIn: '1d' }, (er, token)=>{
-        iplocation(req.headers['x-userip'])
+        iplocation(req.headers['x-forwarded-for'].split(',')[0])
             .then(resp=>{
                 activity.location = resp.city;
                 activity.browser = req.browser

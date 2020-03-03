@@ -13,6 +13,8 @@ const validateRegisterInput = require('../../validation/register');
 const validatePasswordInput = require('../../validation/password');
 const validateLoginInput = require('../../validation/login');
 const validateProfileInput = require('../../validation/profile');
+const validateEmail = require('../../validation/email');
+const validateResetPasswordInput = require('../../validation/resetpassword');
 
 const secretOrKey = process.env.secretOrKey || 'key';
 
@@ -39,7 +41,7 @@ router.post('/register', (req, res)=>{
                 password: req.body.password
             });
             jwt.sign({email: newUser.email}, secretOrKey, { expiresIn: '2d' }, (er, emailToken)=>{
-                const link = `http://localhost:5001/api/user/confirmation/${emailToken}`;
+                const link = `${process.env.backenUrl}/api/user/confirmation/${emailToken}`;
                 const output = `
                 <h3>Click the link below to confirm your account with iLearn Africa</h3>
                 Link: ${link}`;
@@ -141,7 +143,19 @@ router.get('/search', (req, res) => {
         })
 })
 
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/privilege/:id',  (req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            res.json({
+                IsSuperAdmin: user.IsSuperAdmin
+            })
+        })
+        .catch(()=>{
+            res.status(401).json({error: 'User not found'})
+        })
+})
+
+router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
         id: req.user._id,
         email: req.user.email,
@@ -176,6 +190,7 @@ router.put('/profile', passport.authenticate('jwt', { session: false }), (req, r
         })
 })
 
+// Change password
 router.put('/password', passport.authenticate('jwt', { session: false }), (req, res) => {
 
     const { errors, isValid } = validatePasswordInput(req.body);
@@ -205,6 +220,70 @@ router.put('/password', passport.authenticate('jwt', { session: false }), (req, 
         })
 
 })
+
+// Forgot password
+router.get('/forgotpassword', (req, res) => {
+
+    const { errors, isValid } = validateEmail(req.body);
+
+    // Check Validation
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+    const { email } = req.body;
+    
+    User.findOne({ email })
+        .then(user =>{
+            if (!user){
+                errors.email = 'User not found';
+                return res.status(404).json(errors)
+            }
+            
+            jwt.sign({ email }, secretOrKey, { expiresIn: '2d' }, (er, resetToken)=>{
+                const link = `${process.env.backenUrl}/api/user/passwordreset/${resetToken}`;
+                const output = `
+                <h3>Click the link below to reset your pasword with iLearn Africa</h3>
+                Link: ${link}`;
+                
+                Emailer(email, output);
+            })
+            res.json({ message: 'A password reset link has been sent to your email' })
+        })
+});
+
+// Reset password
+router.put('/passwordreset/:resetToken', (req, res) => {
+
+    const { errors, isValid } = validateResetPasswordInput(req.body);
+
+    // Check Validation
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
+    jwt.verify(req.params.resetToken, secretOrKey, (err, decoded) => {
+        if(err){
+            return res.status(400).json({email: 'Token is expired or corrupted, request another one'})
+        }
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+                const email = decoded.email;
+                const password = hash;
+                User.findOne({email})
+                    .then(user=>{
+                        if (!user){
+                            errors.email = 'User not found';
+                            return res.status(404).json(errors)
+                        }
+                        user.password = hash
+                        user.save()
+
+                    })
+                res.json({ message: "Password successfully updated" })
+            });
+        });
+    });
+});
 
 router.get('/activity', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
