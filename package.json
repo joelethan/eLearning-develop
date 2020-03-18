@@ -9,8 +9,8 @@
     "cov": "npm run test &&  npm run coverage",
     "build": "npm run clean && babel . --out-dir dist/ --ignore './node_modules','./learn-backend-staging'&& cp src/apiSpec.json dist/src/",
     "clean": "rimraf dist/",
-    "start": "node dist/index.js",
-    "dev": "nodemon --exec babel-node index.js",
+    "start1": "node dist/index.js",
+    "start": "nodemon --exec babel-node index.js",
     "heroku-postbuild": "echo done;exit 0"
   },
   "repository": {
