@@ -1,0 +1,56 @@
+image: node:10.14.1
+
+clone:
+  depth: full
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Package
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+            - tar czfv application.tgz dist/ package.json
+          artifacts:
+            - application.tgz
+          services:
+            - mongo
+      - step:
+          name: Deploy to production
+          deployment: staging
+          script:
+            - pipe: atlassian/heroku-deploy:0.1.1
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: $HEROKU_STAGING
+                ZIP_FILE: "application.tgz"
+
+    ft-add-api-documentation:
+      - step:
+          name: Package
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+            - tar czfv application-deploy.tgz dist/ package.json
+          artifacts:
+            - application-deploy.tgz
+          services:
+            - mongo
+      - step:
+          name: Deploy to test environment
+          deployment: test
+          script:
+            - pipe: atlassian/heroku-deploy:0.1.1
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: $HEROKU_TEST
+                ZIP_FILE: "application-deploy.tgz"
+definitions:
+  services:
+    mongo:
+      image: mongo

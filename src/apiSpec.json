@@ -1,0 +1,199 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "/",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user": {
+      "get": {
+        "summary": "/api/user",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "summary": "/api/user/register",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/confirmation/{emailToken}": {
+      "get": {
+        "summary": "/api/user/confirmation/{emailToken}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "emailToken",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "summary": "/api/user/login",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/search": {
+      "get": {
+        "summary": "/api/user/search",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/privilege/{id}": {
+      "get": {
+        "summary": "/api/user/privilege/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "summary": "/api/user/profile",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      },
+      "put": {
+        "summary": "/api/user/profile",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/password": {
+      "put": {
+        "summary": "/api/user/password",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/forgotpassword": {
+      "get": {
+        "summary": "/api/user/forgotpassword",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/passwordreset/{resetToken}": {
+      "put": {
+        "summary": "/api/user/passwordreset/{resetToken}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "resetToken",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/user/activity": {
+      "get": {
+        "summary": "/api/user/activity",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/google": {
+      "post": {
+        "summary": "/api/user/google",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/facebook": {
+      "post": {
+        "summary": "/api/user/facebook",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/user/linkedin": {
+      "get": {
+        "summary": "/api/user/linkedin",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "summary": "/api-docs",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "info": {
+    "title": "ilearn-backend",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "[Specification JSON](/api-spec)\n\n**Authentication and authorization api**"
+  }
+}

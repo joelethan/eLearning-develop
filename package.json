@@ -1,13 +1,17 @@
 {
   "name": "ilearn-backend",
   "version": "1.0.0",
-  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "description": "**Authentication and authorization api**",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha test/*.test.js --timeout 20000 --exit",
+    "test": "NODE_ENV='test' nyc ./node_modules/.bin/mocha src/test/*.test.js --require @babel/register --timeout 20000 --exit",
     "coverage": "nyc report --reporter=lcov --reporter=text",
     "cov": "npm run test &&  npm run coverage",
-    "start": "node start"
+    "build": "npm run clean && babel . --out-dir dist/ --ignore './node_modules','./learn-backend-staging'&& cp src/apiSpec.json dist/src/",
+    "clean": "rimraf dist/",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec babel-node index.js",
+    "heroku-postbuild": "echo done;exit 0"
   },
   "repository": {
     "type": "git",
@@ -22,6 +26,7 @@
     "body-parser": "^1.19.0",
     "browser-detect": "^0.2.28",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "iplocation": "^6.1.0",
@@ -29,20 +34,31 @@
     "mongoose": "^5.8.0",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.2",
+    "nodemailer-express-handlebars": "^3.1.0",
     "passport": "^0.4.1",
     "passport-facebook-token": "^3.3.0",
     "passport-google-plus-token": "^2.1.0",
     "passport-jwt": "^4.0.0",
     "request": "^2.88.0",
+    "swagger-ui-express": "^4.1.3",
     "validator": "^12.1.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/register": "^7.8.6",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "chai": "^4.2.0",
     "coveralls": "^3.0.9",
+    "express-oas-generator": "^1.0.23",
     "mocha": "^6.2.2",
     "mockgoose": "^8.0.4",
-    "nodemon": "^2.0.1",
+    "nodemon": "^2.0.2",
     "nyc": "^14.1.1",
+    "rimraf": "^3.0.2",
     "supertest": "^4.0.2"
-  }
+  },
+  "heroku-run-build-script": false
 }

@@ -1,0 +1,5 @@
+{
+  "presets": ["@babel/preset-env"],
+  "ignore": ["node_modules/*", ".nyc_output/*"],
+  "plugins": [["inline-json-import", {}]]
+}
